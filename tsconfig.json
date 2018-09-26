@@ -1,0 +1,53 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "moduleResolution": "node",
+    "module": "commonjs",
+    "jsx": "react",
+    // "declaration": true,
+    "lib": [
+      "es2017",
+      "dom",
+      "es6",
+      "dom.iterable",
+      "scripthost"
+    ],
+    
+    // "types": ["node"],
+    // "typeRoots": [
+    //   "node_modules/@types",
+    //   "./src/app/declarations"
+    // ],
+    // "alwaysStrict": true,
+    // "strictNullChecks": true,
+    // "noImplicitAny": true,
+    // "noImplicitReturns": true,
+    // "noImplicitThis": true,
+    // "noUnusedLocals": true,
+    // "importHelpers": true, 
+    // "strict": true,  
+    // "alwaysStrict": true,    
+    // "noUnusedParameters": true, 
+    // "downlevelIteration": true,   
+    "experimentalDecorators": false,
+    // "emitDecoratorMetadata": true,
+    // "noFallthroughCasesInSwitch": true,
+    "sourceMap": true,
+    // "allowSyntheticDefaultImports": true,
+    // "resolveJsonModule": true,
+    // "esModuleInterop": true,  
+    "outDir": "dist"
+  },
+  // "files": [
+  //   "src/app/app.tsx"
+  // ],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "node_modules/@types/**/*.d.ts"
+  ],
+  "exclude": [
+    "dist",
+    "./node_modules"
+  ]
+}
