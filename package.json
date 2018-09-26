@@ -1,0 +1,62 @@
+{
+  "name": "electron-web",
+  "version": "1.0.0",
+  "description": "share code with electron and web",
+  "scripts": {
+    "start": "NODE_ENV=development webpack-dev-server --config webpack.config.dev.js --open",
+    "start-electron": "cross-env HOT=1 ELECTRON=1 NODE_ENV=development electron ./electron/",
+    "server": "node electron/server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/qin9smile/electron-web.git"
+  },
+  "keywords": [
+    "electron",
+    "web",
+    "typescript",
+    "webpack",
+    "react"
+  ],
+  "author": "charlotte",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/qin9smile/electron-web/issues"
+  },
+  "homepage": "https://github.com/qin9smile/electron-web#readme",
+  "dependencies": {
+    "react": "^16.5.2",
+    "react-dom": "^16.5.2",
+    "react-router": "^4.3.1",
+    "react-router-dom": "^4.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "^16.4.14",
+    "@types/react-dom": "^16.0.7",
+    "@types/react-router": "^4.0.31",
+    "@types/react-router-dom": "^4.3.1",
+    "babel-loader": "^8.0.2",
+    "base64-inline-loader": "^1.1.1",
+    "clean-webpack-plugin": "^0.1.19",
+    "copy-webpack-plugin": "^4.5.2",
+    "cross-env": "^5.2.0",
+    "css-loader": "^1.0.0",
+    "express": "^4.16.3",
+    "fs-extra": "^7.0.0",
+    "html-webpack-plugin": "^3.2.0",
+    "react-hot-loader": "^4.3.11",
+    "source-map-loader": "^0.2.4",
+    "style-loader": "^0.23.0",
+    "ts-loader": "^5.2.1",
+    "tslint": "^5.11.0",
+    "typescript": "^3.0.3",
+    "uglifyjs-webpack-plugin": "^2.0.1",
+    "url-loader": "^1.1.1",
+    "webpack": "^4.20.2",
+    "webpack-cli": "^3.1.1",
+    "webpack-dev-server": "^3.1.9",
+    "webpack-hot-middleware": "^2.24.2",
+    "webpack-merge": "^4.1.4"
+  }
+}
