@@ -2,14 +2,6 @@ const { remote, ipcRenderer } = require("electron");
 
 var nodeConsole = require("console");
 
-ipcRenderer.on('redirect-url', function(event, url) {
-  window.location.assign(url);
-});
-
-ipcRenderer.on("reload-current-viewer", function(event, url) {
-  console.log("preload");
-  window.location.href = window.location.href;
-});
 
 window.interop = {
   setBadgeCount(count) {

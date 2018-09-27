@@ -1,6 +1,7 @@
 const { remote, ipcRenderer } = require("electron");
 const { AppContext } = require("../../src/base/appcontext");
-console.log("renderer");
+
+//------------------ Router -------------------
 
 ipcRenderer.on("back", function(event, url) {
   AppContext.history().goBack();
@@ -27,6 +28,15 @@ ipcRenderer.on("reload", function(event, url) {
 });
 
 ipcRenderer.on("hard-reload", function(event, url) {
-  console.log("hard-reload  renderer");
   ipcRenderer.send("hard-reload");
+});
+
+// -------------- Features -----------------
+
+ipcRenderer.on('redirect-url', function(event, url) {
+  window.location.assign(url);
+});
+
+ipcRenderer.on("reload-current-viewer", function(event, url) {
+  window.location.href = window.location.href;
 });

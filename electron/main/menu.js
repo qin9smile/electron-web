@@ -78,36 +78,11 @@ class AppMenu {
 		}, {
 			type: 'separator'
 		}, {
-			label: 'Toggle Tray Icon',
-			click(item, focusedWindow) {
-				if (focusedWindow) {
-					focusedWindow.webContents.send('toggletray');
-				}
-			}
-		}, {
-			label: 'Toggle Sidebar',
-			accelerator: 'CommandOrControl+Shift+S',
-			click(item, focusedWindow) {
-				if (focusedWindow) {
-					const newValue = !ConfigUtil.getConfigItem('showSidebar');
-					focusedWindow.webContents.send('toggle-sidebar', newValue);
-					ConfigUtil.setConfigItem('showSidebar', newValue);
-				}
-			}
-		}, {
 			label: 'Toggle DevTools for Share.EW App',
 			accelerator: process.platform === 'darwin' ? 'Alt+Command+I' : 'Ctrl+Shift+I',
 			click(item, focusedWindow) {
 				if (focusedWindow) {
 					focusedWindow.webContents.toggleDevTools();
-				}
-			}
-		}, {
-			label: 'Toggle DevTools for Active Tab',
-			accelerator: process.platform === 'darwin' ? 'Alt+Command+U' : 'Ctrl+Shift+U',
-			click(item, focusedWindow) {
-				if (focusedWindow) {
-					AppMenu.sendAction('tab-devtools');
 				}
 			}
 		}];
@@ -118,6 +93,15 @@ class AppMenu {
 			{
 				label: `${appName + ' Desktop-'} v${app.getVersion()}`,
 				enabled: false
+      },
+      {
+				label: 'Keyboard Shortcuts',
+				accelerator: 'Cmd+Shift+K',
+				click(item, focusedWindow) {
+					if (focusedWindow) {
+						AppMenu.sendAction('shortcut');
+					}
+				}
 			},
 			{
 				label: `What's New...`,
@@ -209,47 +193,6 @@ class AppMenu {
 			}, {
 				type: 'separator'
 			}, {
-				label: 'Desktop App Settings',
-				accelerator: 'Cmd+,',
-				click(item, focusedWindow) {
-					if (focusedWindow) {
-						AppMenu.sendAction('open-settings');
-					}
-				}
-			}, {
-				label: 'Keyboard Shortcuts',
-				accelerator: 'Cmd+Shift+K',
-				click(item, focusedWindow) {
-					if (focusedWindow) {
-						AppMenu.sendAction('shortcut');
-					}
-				}
-			}, {
-				type: 'separator'
-			}, {
-				label: 'Toggle Do Not Disturb',
-				accelerator: 'Command+Shift+M',
-				click() {
-					const dndUtil = DNDUtil.toggle();
-					AppMenu.sendAction('toggle-dnd', dndUtil.dnd, dndUtil.newSettings);
-				}
-			}, {
-				label: 'Reset App Settings',
-				accelerator: 'Command+Shift+D',
-				click() {
-					// AppMenu.resetAppSettings();
-				}
-			}, {
-				label: 'Log Out',
-				accelerator: 'Cmd+L',
-				click(item, focusedWindow) {
-					if (focusedWindow) {
-						AppMenu.sendAction('log-out');
-					}
-				}
-			}, {
-				type: 'separator'
-			}, {
 				role: 'services',
 				submenu: []
 			}, {
@@ -285,7 +228,16 @@ class AppMenu {
 				role: 'delete'
 			}, {
 				role: 'selectall'
-			}]
+			}, {
+        type: "separator"
+      }, {
+        label: "find",
+        click(item, focusedWindow) {
+          if (focusedWindow) {
+             console.log("find...");
+          }
+        }
+      }]
 		}, {
 			label: 'View',
 			submenu: this.getViewSubmenu()
@@ -321,49 +273,6 @@ class AppMenu {
 			}, {
 				type: 'separator'
 			}, {
-				label: 'Desktop App Settings',
-				accelerator: 'Ctrl+,',
-				click(item, focusedWindow) {
-					if (focusedWindow) {
-						AppMenu.sendAction('open-settings');
-					}
-				}
-			}, {
-				type: 'separator'
-			}, {
-				label: 'Keyboard Shortcuts',
-				accelerator: 'Ctrl+Shift+K',
-				click(item, focusedWindow) {
-					if (focusedWindow) {
-						AppMenu.sendAction('shortcut');
-					}
-				}
-			}, {
-				type: 'separator'
-			}, {
-				label: 'Toggle Do Not Disturb',
-				accelerator: 'Ctrl+Shift+M',
-				click() {
-					const dndUtil = DNDUtil.toggle();
-					AppMenu.sendAction('toggle-dnd', dndUtil.dnd, dndUtil.newSettings);
-				}
-			}, {
-				label: 'Reset App Settings',
-				accelerator: 'Ctrl+Shift+D',
-				click() {
-					AppMenu.resetAppSettings();
-				}
-			}, {
-				label: 'Log Out',
-				accelerator: 'Ctrl+L',
-				click(item, focusedWindow) {
-					if (focusedWindow) {
-						AppMenu.sendAction('log-out');
-					}
-				}
-			}, {
-				type: 'separator'
-			}, {
 				role: 'quit',
 				accelerator: 'Ctrl+Q'
 			}]
@@ -389,7 +298,16 @@ class AppMenu {
 				type: 'separator'
 			}, {
 				role: 'selectall'
-			}]
+			}, {
+        type: "separator"
+      }, {
+        label: "find",
+        click(item, focusedWindow) {
+          if (focusedWindow) {
+             console.log("find...");
+          }
+        }
+      }]
 		}, {
 			label: '&View',
 			submenu: this.getViewSubmenu()
@@ -421,37 +339,7 @@ class AppMenu {
 	static checkForUpdate() {
 		// appUpdater(true);
 	}
-	static resetAppSettings() {
-		const resetAppSettingsMessage = 'By proceeding you will be removing all connected organizations and preferences from Share.EW.';
-
-		// We save App's settings/configurations in following files
-		const settingFiles = ['config/window-state.json', 'config/domain.json', 'config/settings.json', 'config/certificates.json'];
-
-		dialog.showMessageBox({
-			type: 'warning',
-			buttons: ['YES', 'NO'],
-			defaultId: 0,
-			message: 'Are you sure?',
-			detail: resetAppSettingsMessage
-		}, response => {
-			if (response === 0) {
-				settingFiles.forEach(settingFileName => {
-					const getSettingFilesPath = path.join(app.getPath('appData'), appName, settingFileName);
-					fs.access(getSettingFilesPath, error => {
-						if (error) {
-							logger.error('Error while resetting app settings.');
-							logger.error(error);
-						} else {
-							fs.unlink(getSettingFilesPath, () => {
-								AppMenu.sendAction('clear-app-data');
-							});
-						}
-					});
-				});
-			}
-		});
-	}
-
+	
 	setMenu(props) {
 		const tpl = process.platform === 'darwin' ? this.getDarwinTpl(props) : this.getOtherTpl(props);
 		const menu = Menu.buildFromTemplate(tpl);
