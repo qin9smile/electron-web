@@ -36,7 +36,7 @@ class AppMenu {
 			accelerator: 'CommandOrControl+R',
 			click(item, focusedWindow) {
 				if (focusedWindow) {
-					AppMenu.sendAction('reload-current-viewer');
+					AppMenu.sendAction('reload');
 				}
 			}
 		}, {
@@ -410,7 +410,6 @@ class AppMenu {
 		const win = BrowserWindow.getAllWindows()[0];
 
 		if (process.platform === 'darwin') {
-      console.log("darwin");
 			win.restore();
     }
     

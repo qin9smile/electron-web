@@ -20,6 +20,7 @@ function createwin() {
     minWidth: 400,
     minHeight: 300,
     show: false,
+    backgroundColor: "#red",
     webPreferences: {
       preload: path.join(__dirname, "./main/preload.js"),
     }
@@ -116,6 +117,12 @@ app.on("ready", () => {
         mainWindow.openDevTools();
       }
       // TODO: - updater
+    });
+
+    ipcMain.on("hard-reload", () => {
+      console.log("hard-reload in main");
+      mainWindow.reload();
+      page.send("destroytray");
     });
 
 

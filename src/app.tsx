@@ -1,11 +1,11 @@
 import * as React from 'react';
 import * as ReactDOM from "react-dom";
-
 import {
-  BrowserRouter as Router,
+  Router,
   Route,
   Link
-} from 'react-router-dom'
+} from 'react-router-dom';
+import { AppContext } from './base/appcontext';
 
 const Home = () => (
   <div>
@@ -13,9 +13,12 @@ const Home = () => (
   </div>
 )
 
+
+console.log(AppContext.history());
 const About = () => (
   <div>
     <h2>About</h2>
+    <button onClick={() => { AppContext.history().goBack()}}>back</button>
   </div>
 )
 
@@ -46,15 +49,11 @@ const Topics = ({ match }) => (
       </li>
     </ul>
 
-    <Route path={`${match.path}/:topicId`} component={Topic}/>
-    <Route exact path={match.path} render={() => (
-      <h3>Please select a topic.</h3>
-    )}/>
   </div>
 )
 
 const BasicExample = () => (
-  <Router>
+  <Router history={AppContext.history()}>
     <div>
       <ul>
         <li><Link to="/">Home</Link></li>
@@ -63,14 +62,11 @@ const BasicExample = () => (
       </ul>
 
       <hr/>
-
-      <Route exact path="/" component={Home}/>
+      <Route path="/" component={Home}/>
       <Route path="/about" component={About}/>
       <Route path="/topics" component={Topics}/>
     </div>
   </Router>
 )
-
-export default BasicExample
 
 ReactDOM.render(<BasicExample />, document.getElementById("app") as HTMLElement);
